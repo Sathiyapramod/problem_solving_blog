@@ -1,0 +1,17 @@
+{
+  "index": {
+    "title": "home",
+    "theme": {
+      "footer": false,
+      "toc": false,
+      "breadcrumb": false,
+      "pagination": false,
+      "sidebar": false
+    },
+    "display": "hidden"
+  },
+  "difficulty": {
+    "title": "difficulty",
+    "type": "page"
+  }
+}
