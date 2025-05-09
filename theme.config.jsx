@@ -16,9 +16,6 @@ export const metaTags = (
 export default config = {
   head: metaTags,
   logo: <div>Problem Solving</div>,
-  search: {
-    placeholder: "Search",
-  },
   feedback: {
     content: null,
   },

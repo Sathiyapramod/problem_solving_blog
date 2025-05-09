@@ -23,7 +23,12 @@ export default async function RootLayout({
         <meta name="author" content="Sathiyapramod KR" />
       </Head>
       <body suppressHydrationWarning>
-        <Layout banner={banner} navbar={navbar} pageMap={await getPageMap()}>
+        <Layout
+          banner={banner}
+          navbar={navbar}
+          pageMap={await getPageMap()}
+          docsRepositoryBase="https://github.com/shuding/nextra/tree/main/docs"
+        >
           {children}
         </Layout>
       </body>
