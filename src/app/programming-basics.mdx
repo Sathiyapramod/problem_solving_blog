@@ -1,0 +1,380 @@
+# Programming Basics 📚
+
+Master the fundamental concepts that form the foundation of all programming languages.
+
+## Table of Contents
+
+- [Variables and Data Types](#variables-and-data-types)
+- [Control Flow](#control-flow)
+- [Functions](#functions)
+- [Data Structures](#data-structures)
+- [Object-Oriented Programming](#object-oriented-programming)
+- [Error Handling](#error-handling)
+
+## Variables and Data Types
+
+### What are Variables?
+
+Variables are containers that store data. Think of them as labeled boxes where you can put different types of information.
+
+```python
+# Variable declaration and assignment
+name = "John Doe"
+age = 25
+height = 5.9
+is_student = True
+```
+
+### Basic Data Types
+
+#### 1. Strings
+
+Strings represent text data:
+
+```python
+# String examples
+message = "Hello, World!"
+single_quotes = 'This is also a string'
+multi_line = """
+This is a
+multi-line string
+"""
+
+# String operations
+first_name = "John"
+last_name = "Doe"
+full_name = first_name + " " + last_name  # Concatenation
+print(full_name)  # Output: John Doe
+
+# String methods
+text = "  Hello World  "
+print(text.strip())      # Remove whitespace: "Hello World"
+print(text.upper())      # Convert to uppercase: "  HELLO WORLD  "
+print(text.lower())      # Convert to lowercase: "  hello world  "
+print(len(text))         # Get length: 15
+```
+
+#### 2. Numbers
+
+**Integers** (whole numbers):
+
+```python
+count = 42
+negative = -10
+zero = 0
+```
+
+**Floats** (decimal numbers):
+
+```python
+pi = 3.14159
+price = 19.99
+scientific = 1.23e-4  # Scientific notation
+```
+
+#### 3. Booleans
+
+```python
+is_active = True
+is_completed = False
+```
+
+#### 4. Lists (Arrays)
+
+Lists store multiple items in a single variable:
+
+```python
+# Creating lists
+fruits = ["apple", "banana", "orange"]
+numbers = [1, 2, 3, 4, 5]
+mixed = [1, "hello", True, 3.14]
+
+# Accessing elements (zero-indexed)
+print(fruits[0])    # First element: "apple"
+print(fruits[-1])   # Last element: "orange"
+
+# List operations
+fruits.append("grape")      # Add to end
+fruits.insert(1, "mango")   # Insert at specific position
+fruits.remove("banana")     # Remove specific item
+fruits.pop()               # Remove and return last item
+
+# List comprehension
+squares = [x**2 for x in range(5)]  # [0, 1, 4, 9, 16]
+```
+
+#### 5. Dictionaries
+
+Dictionaries store key-value pairs:
+
+```python
+# Creating dictionaries
+person = {
+    "name": "John",
+    "age": 25,
+    "city": "New York"
+}
+
+# Accessing values
+print(person["name"])      # John
+print(person.get("age"))   # 25 (safer method)
+
+# Adding/modifying entries
+person["email"] = "john@example.com"
+person["age"] = 26
+
+# Dictionary methods
+print(person.keys())       # dict_keys(['name', 'age', 'city', 'email'])
+print(person.values())     # dict_values(['John', 26, 'New York', 'john@example.com'])
+```
+
+## Control Flow
+
+### Conditional Statements
+
+#### If-Else Statements
+
+```python
+age = 18
+
+if age >= 18:
+    print("You are an adult")
+elif age >= 13:
+    print("You are a teenager")
+else:
+    print("You are a child")
+```
+
+#### Comparison Operators
+
+```python
+x = 5
+y = 10
+
+print(x == y)   # Equal to: False
+print(x != y)   # Not equal to: True
+print(x < y)    # Less than: True
+print(x > y)    # Greater than: False
+print(x <= y)   # Less than or equal: True
+print(x >= y)   # Greater than or equal: False
+```
+
+#### Logical Operators
+
+```python
+a = True
+b = False
+
+print(a and b)  # Logical AND: False
+print(a or b)   # Logical OR: True
+print(not a)    # Logical NOT: False
+```
+
+### Loops
+
+#### For Loops
+
+```python
+# Iterating over a range
+for i in range(5):
+    print(i)  # Prints: 0, 1, 2, 3, 4
+
+# Iterating over a list
+fruits = ["apple", "banana", "orange"]
+for fruit in fruits:
+    print(fruit)
+
+# Iterating with index
+for index, fruit in enumerate(fruits):
+    print(f"{index}: {fruit}")
+```
+
+#### While Loops
+
+```python
+count = 0
+while count < 5:
+    print(count)
+    count += 1
+
+# Break and continue
+for i in range(10):
+    if i == 3:
+        continue  # Skip this iteration
+    if i == 7:
+        break     # Exit the loop
+    print(i)
+```
+
+## Functions
+
+Functions are reusable blocks of code that perform specific tasks.
+
+### Basic Function Definition
+
+```python
+def greet(name):
+    return f"Hello, {name}!"
+
+# Calling the function
+message = greet("Alice")
+print(message)  # Output: Hello, Alice!
+```
+
+### Function Parameters
+
+```python
+# Default parameters
+def greet(name, greeting="Hello"):
+    return f"{greeting}, {name}!"
+
+print(greet("Bob"))           # Hello, Bob!
+print(greet("Bob", "Hi"))     # Hi, Bob!
+
+# Multiple parameters
+def add_numbers(a, b, c=0):
+    return a + b + c
+
+print(add_numbers(1, 2))      # 3
+print(add_numbers(1, 2, 3))   # 6
+```
+
+### Lambda Functions (Anonymous Functions)
+
+```python
+# Regular function
+def square(x):
+    return x ** 2
+
+# Equivalent lambda function
+square_lambda = lambda x: x ** 2
+
+print(square(5))        # 25
+print(square_lambda(5)) # 25
+```
+
+## Data Structures
+
+### Sets
+
+Sets store unique, unordered elements:
+
+```python
+# Creating sets
+numbers = {1, 2, 3, 4, 5}
+fruits = {"apple", "banana", "orange"}
+
+# Set operations
+numbers.add(6)           # Add element
+numbers.remove(1)        # Remove element
+print(3 in numbers)      # Check membership: True
+
+# Set operations
+set1 = {1, 2, 3}
+set2 = {3, 4, 5}
+print(set1.union(set2))      # {1, 2, 3, 4, 5}
+print(set1.intersection(set2)) # {3}
+```
+
+### Tuples
+
+Tuples are immutable lists:
+
+```python
+# Creating tuples
+coordinates = (10, 20)
+person = ("John", 25, "New York")
+
+# Tuple unpacking
+x, y = coordinates
+name, age, city = person
+
+# Tuples are immutable
+# coordinates[0] = 15  # This would cause an error
+```
+
+## Object-Oriented Programming
+
+### Classes and Objects
+
+```python
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def greet(self):
+        return f"Hello, my name is {self.name} and I am {self.age} years old."
+
+    def have_birthday(self):
+        self.age += 1
+        return f"Happy birthday! You are now {self.age} years old."
+
+# Creating objects
+person1 = Person("Alice", 25)
+person2 = Person("Bob", 30)
+
+print(person1.greet())        # Hello, my name is Alice and I am 25 years old.
+print(person2.have_birthday()) # Happy birthday! You are now 31 years old.
+```
+
+## Error Handling
+
+### Try-Except Blocks
+
+```python
+try:
+    number = int(input("Enter a number: "))
+    result = 10 / number
+    print(f"Result: {result}")
+except ValueError:
+    print("Please enter a valid number")
+except ZeroDivisionError:
+    print("Cannot divide by zero")
+except Exception as e:
+    print(f"An error occurred: {e}")
+finally:
+    print("This always executes")
+```
+
+## Practice Exercises
+
+### Exercise 1: Temperature Converter
+
+```python
+def celsius_to_fahrenheit(celsius):
+    return (celsius * 9/5) + 32
+
+def fahrenheit_to_celsius(fahrenheit):
+    return (fahrenheit - 32) * 5/9
+
+# Test your functions
+print(celsius_to_fahrenheit(0))   # Should print 32.0
+print(fahrenheit_to_celsius(32))  # Should print 0.0
+```
+
+### Exercise 2: List Operations
+
+```python
+def find_max_min(numbers):
+    if not numbers:
+        return None, None
+    return max(numbers), min(numbers)
+
+# Test
+numbers = [3, 1, 4, 1, 5, 9, 2, 6]
+max_num, min_num = find_max_min(numbers)
+print(f"Max: {max_num}, Min: {min_num}")
+```
+
+## Next Steps
+
+Now that you understand the basics, you're ready to:
+
+1. Learn about [Data Structures](/data-structures)
+2. Explore [Algorithms](/algorithms)
+3. Practice [Problem Solving](/problem-solving)
+
+---
+
+**Remember**: Programming is a skill that improves with practice. Write code every day, even if it's just a few lines!

@@ -1,0 +1,472 @@
+# Interview Preparation 💼
+
+Prepare for technical interviews with curated problems, solutions, and strategies from top tech companies.
+
+## Table of Contents
+
+- [Interview Types](#interview-types)
+- [Common Interview Questions](#common-interview-questions)
+- [Interview Strategies](#interview-strategies)
+- [Company-Specific Preparation](#company-specific-preparation)
+- [Resources](#resources)
+
+## Interview Types
+
+### 1. Phone Screen
+
+- **Duration**: 30-60 minutes
+- **Format**: Coding over phone/video call
+- **Focus**: Basic problem-solving skills
+- **Tools**: Usually shared code editor
+
+### 2. Technical Onsite
+
+- **Duration**: 4-6 hours
+- **Format**: Multiple rounds with different interviewers
+- **Focus**: Deep technical knowledge, system design
+- **Tools**: Whiteboard, laptop, or online coding platform
+
+### 3. System Design Interview
+
+- **Duration**: 45-60 minutes
+- **Format**: High-level system architecture discussion
+- **Focus**: Scalability, trade-offs, system thinking
+- **Tools**: Whiteboard or online drawing tools
+
+## Common Interview Questions
+
+### Easy Level (Phone Screen)
+
+#### 1. Two Sum
+
+```python
+def two_sum(nums, target):
+    seen = {}
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
+    return []
+
+# Follow-up: What if the array is sorted?
+def two_sum_sorted(nums, target):
+    left, right = 0, len(nums) - 1
+    while left < right:
+        current_sum = nums[left] + nums[right]
+        if current_sum == target:
+            return [left, right]
+        elif current_sum < target:
+            left += 1
+        else:
+            right -= 1
+    return []
+```
+
+#### 2. Valid Parentheses
+
+```python
+def is_valid(s):
+    stack = []
+    brackets = {')': '(', '}': '{', ']': '['}
+
+    for char in s:
+        if char in '({[':
+            stack.append(char)
+        elif char in ')}]':
+            if not stack or stack.pop() != brackets[char]:
+                return False
+
+    return len(stack) == 0
+
+# Follow-up: Generate all valid parentheses combinations
+def generate_parentheses(n):
+    def backtrack(open_count, close_count, current):
+        if len(current) == 2 * n:
+            result.append(current)
+            return
+
+        if open_count < n:
+            backtrack(open_count + 1, close_count, current + '(')
+        if close_count < open_count:
+            backtrack(open_count, close_count + 1, current + ')')
+
+    result = []
+    backtrack(0, 0, '')
+    return result
+```
+
+#### 3. Reverse String
+
+```python
+def reverse_string(s):
+    # In-place reversal
+    left, right = 0, len(s) - 1
+    s = list(s)  # Convert to list for in-place modification
+
+    while left < right:
+        s[left], s[right] = s[right], s[left]
+        left += 1
+        right -= 1
+
+    return ''.join(s)
+
+# Follow-up: Reverse words in a string
+def reverse_words(s):
+    words = s.split()
+    return ' '.join(words[::-1])
+```
+
+### Medium Level (Onsite)
+
+#### 4. Longest Substring Without Repeating Characters
+
+```python
+def length_of_longest_substring(s):
+    char_map = {}
+    left = 0
+    max_length = 0
+
+    for right, char in enumerate(s):
+        if char in char_map and char_map[char] >= left:
+            left = char_map[char] + 1
+        char_map[char] = right
+        max_length = max(max_length, right - left + 1)
+
+    return max_length
+
+# Follow-up: Find all substrings without repeating characters
+def all_substrings_without_repeating(s):
+    result = []
+    for i in range(len(s)):
+        seen = set()
+        for j in range(i, len(s)):
+            if s[j] in seen:
+                break
+            seen.add(s[j])
+            result.append(s[i:j+1])
+    return result
+```
+
+#### 5. Container With Most Water
+
+```python
+def max_area(height):
+    left, right = 0, len(height) - 1
+    max_area = 0
+
+    while left < right:
+        width = right - left
+        h = min(height[left], height[right])
+        area = width * h
+        max_area = max(max_area, area)
+
+        if height[left] < height[right]:
+            left += 1
+        else:
+            right -= 1
+
+    return max_area
+
+# Follow-up: Find all containers with area > threshold
+def containers_above_threshold(height, threshold):
+    result = []
+    for i in range(len(height)):
+        for j in range(i + 1, len(height)):
+            area = (j - i) * min(height[i], height[j])
+            if area > threshold:
+                result.append((i, j, area))
+    return result
+```
+
+#### 6. Merge Two Sorted Lists
+
+```python
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def merge_two_lists(l1, l2):
+    dummy = ListNode(0)
+    current = dummy
+
+    while l1 and l2:
+        if l1.val <= l2.val:
+            current.next = l1
+            l1 = l1.next
+        else:
+            current.next = l2
+            l2 = l2.next
+        current = current.next
+
+    current.next = l1 if l1 else l2
+    return dummy.next
+
+# Follow-up: Merge k sorted lists
+def merge_k_lists(lists):
+    if not lists:
+        return None
+
+    while len(lists) > 1:
+        merged = []
+        for i in range(0, len(lists), 2):
+            if i + 1 < len(lists):
+                merged.append(merge_two_lists(lists[i], lists[i + 1]))
+            else:
+                merged.append(lists[i])
+        lists = merged
+
+    return lists[0]
+```
+
+### Hard Level (Senior Positions)
+
+#### 7. Median of Two Sorted Arrays
+
+```python
+def find_median_sorted_arrays(nums1, nums2):
+    if len(nums1) > len(nums2):
+        nums1, nums2 = nums2, nums1
+
+    x, y = len(nums1), len(nums2)
+    low, high = 0, x
+
+    while low <= high:
+        partitionX = (low + high) // 2
+        partitionY = (x + y + 1) // 2 - partitionX
+
+        maxLeftX = float('-inf') if partitionX == 0 else nums1[partitionX - 1]
+        minRightX = float('inf') if partitionX == x else nums1[partitionX]
+
+        maxLeftY = float('-inf') if partitionY == 0 else nums2[partitionY - 1]
+        minRightY = float('inf') if partitionY == y else nums2[partitionY]
+
+        if maxLeftX <= minRightY and maxLeftY <= minRightX:
+            if (x + y) % 2 == 0:
+                return (max(maxLeftX, maxLeftY) + min(minRightX, minRightY)) / 2
+            else:
+                return max(maxLeftX, maxLeftY)
+        elif maxLeftX > minRightY:
+            high = partitionX - 1
+        else:
+            low = partitionX + 1
+```
+
+#### 8. Regular Expression Matching
+
+```python
+def is_match(s, p):
+    def dp(i, j):
+        if j == len(p):
+            return i == len(s)
+
+        first_match = i < len(s) and p[j] in {s[i], '.'}
+
+        if j + 1 < len(p) and p[j + 1] == '*':
+            return dp(i, j + 2) or (first_match and dp(i + 1, j))
+        else:
+            return first_match and dp(i + 1, j + 1)
+
+    return dp(0, 0)
+```
+
+## Interview Strategies
+
+### 1. Before the Interview
+
+- **Research the company**: Understand their products, culture, and interview process
+- **Practice coding**: Solve problems on LeetCode, HackerRank
+- **Review fundamentals**: Data structures, algorithms, system design
+- **Prepare questions**: Have thoughtful questions about the role and company
+
+### 2. During the Interview
+
+- **Clarify requirements**: Ask questions to understand the problem
+- **Think aloud**: Explain your thought process
+- **Start simple**: Begin with a brute force solution, then optimize
+- **Test your code**: Walk through examples and edge cases
+- **Handle feedback**: Be open to suggestions and corrections
+
+### 3. Communication Tips
+
+```python
+# Good communication example
+def solve_problem(data):
+    # "Let me start by understanding the problem:
+    # We need to find the longest substring without repeating characters.
+    # Input: string, Output: length of longest substring
+
+    # "I'll use a sliding window approach with a hash map:
+    # - Keep track of character positions
+    # - Move left pointer when we encounter a duplicate
+    # - Update max length as we go"
+
+    char_map = {}
+    left = 0
+    max_length = 0
+
+    for right, char in enumerate(data):
+        if char in char_map and char_map[char] >= left:
+            left = char_map[char] + 1
+        char_map[char] = right
+        max_length = max(max_length, right - left + 1)
+
+    return max_length
+```
+
+### 4. Problem-Solving Framework
+
+1. **Understand**: Read the problem carefully
+2. **Clarify**: Ask questions about edge cases and constraints
+3. **Plan**: Outline your approach before coding
+4. **Implement**: Write clean, readable code
+5. **Test**: Walk through examples and edge cases
+6. **Optimize**: Look for improvements if time permits
+
+## Company-Specific Preparation
+
+### Google
+
+- **Focus**: Algorithm efficiency, clean code, scalability
+- **Common topics**: Graphs, dynamic programming, system design
+- **Tips**: Emphasize optimization and edge cases
+
+### Facebook/Meta
+
+- **Focus**: Problem-solving speed, practical solutions
+- **Common topics**: Arrays, strings, trees, system design
+- **Tips**: Focus on user experience and practical applications
+
+### Amazon
+
+- **Focus**: Object-oriented design, behavioral questions
+- **Common topics**: Trees, graphs, system design, leadership principles
+- **Tips**: Prepare STAR method for behavioral questions
+
+### Microsoft
+
+- **Focus**: Problem-solving, clean code, testing
+- **Common topics**: Arrays, strings, trees, system design
+- **Tips**: Emphasize code quality and testing
+
+### Apple
+
+- **Focus**: iOS development, system design, user experience
+- **Common topics**: Data structures, algorithms, mobile development
+- **Tips**: Understand Apple's design philosophy
+
+## Behavioral Questions
+
+### Common Questions
+
+1. **Tell me about a challenging project you worked on**
+2. **How do you handle conflicts with team members?**
+3. **Describe a time when you had to learn something quickly**
+4. **What's your biggest weakness?**
+5. **Why do you want to work at this company?**
+
+### STAR Method
+
+- **Situation**: Describe the context
+- **Task**: Explain what you needed to accomplish
+- **Action**: Detail what you did
+- **Result**: Share the outcome
+
+## System Design Questions
+
+### Common Topics
+
+1. **Design a URL shortener**
+2. **Design a chat application**
+3. **Design a recommendation system**
+4. **Design a social media feed**
+5. **Design a ride-sharing service**
+
+### Framework
+
+1. **Clarify requirements**: Scale, features, constraints
+2. **High-level design**: Components and interactions
+3. **Detailed design**: APIs, databases, algorithms
+4. **Scale the design**: Handle millions of users
+5. **Identify bottlenecks**: Performance and reliability
+
+## Resources
+
+### Practice Platforms
+
+- [LeetCode](https://leetcode.com) - 2000+ problems
+- [HackerRank](https://hackerrank.com) - Practice and contests
+- [Codeforces](https://codeforces.com) - Competitive programming
+- [InterviewBit](https://interviewbit.com) - Company-specific questions
+
+### Books
+
+- "Cracking the Coding Interview" by Gayle McDowell
+- "System Design Interview" by Alex Xu
+- "Introduction to Algorithms" by CLRS
+- "Designing Data-Intensive Applications" by Martin Kleppmann
+
+### Online Courses
+
+- [Algorithms Part I & II](https://coursera.org/learn/algorithms-part1) - Princeton
+- [System Design Primer](https://github.com/donnemartin/system-design-primer)
+- [Grokking the System Design Interview](https://educative.io/courses/grokking-the-system-design-interview)
+
+## Interview Timeline
+
+### 2-3 Months Before
+
+- Start solving problems daily
+- Review data structures and algorithms
+- Practice coding on whiteboard/online
+
+### 1 Month Before
+
+- Focus on company-specific problems
+- Practice system design questions
+- Prepare behavioral stories
+
+### 1 Week Before
+
+- Review fundamentals
+- Practice mock interviews
+- Research the company thoroughly
+
+### Day Before
+
+- Get good sleep
+- Review key concepts
+- Prepare questions for interviewers
+
+## Common Mistakes to Avoid
+
+1. **Not clarifying requirements** - Always ask questions
+2. **Jumping into coding** - Plan your approach first
+3. **Not testing your code** - Always walk through examples
+4. **Ignoring edge cases** - Consider boundary conditions
+5. **Poor communication** - Explain your thought process
+6. **Not asking questions** - Show interest in the company
+
+## Success Tips
+
+1. **Practice consistently** - Solve problems daily
+2. **Learn from mistakes** - Review failed interviews
+3. **Build projects** - Show practical experience
+4. **Network** - Connect with people in the industry
+5. **Stay updated** - Follow tech trends and news
+6. **Be confident** - Believe in your abilities
+
+## Next Steps
+
+After preparing for interviews:
+
+1. Apply to companies that interest you
+2. Practice with mock interviews
+3. Build a strong portfolio
+4. Network with professionals
+5. Stay persistent and keep learning
+
+---
+
+**Remember**: Interview preparation is a marathon, not a sprint. Consistent practice and learning will lead to success!
