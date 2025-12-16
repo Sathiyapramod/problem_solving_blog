@@ -1,0 +1,33 @@
+# Search Algorithms
+
+A search algorithm is the step-by-step procedure used to locate specific data among a collection of data. It is considered a fundamental procedure in computing. In computer science, when searching for data, the difference between a fast application and a slower one often lies in the use of the proper search algorithm.
+
+## Binary Search
+
+Binary Search is a efficient algorithm for finding an item from a sorted list of items. It works by repeatedly dividing in half the portion of the list that could contain the item, until you've narrowed down the possible locations to just one.
+
+```python
+def binary_search(arr, x):
+    low = 0
+    high = len(arr) - 1
+    mid = 0
+ 
+    while low <= high:
+        mid = (high + low) // 2
+ 
+        # If x is greater, ignore left half
+        if arr[mid] < x:
+            low = mid + 1
+ 
+        # If x is smaller, ignore right half
+        elif arr[mid] > x:
+            high = mid - 1
+ 
+        # means x is present at mid
+        else:
+            return mid
+ 
+    # If we reach here, then the element was not present
+    return -1
+```
+

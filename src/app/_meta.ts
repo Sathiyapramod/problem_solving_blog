@@ -1,6 +1,6 @@
 export default {
   index: {
-    title: "Introduction",
+    title: "Problem Solving Basics",
     theme: {
       typesetting: "article",
       sidebar: true,
